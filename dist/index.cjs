@@ -20,7 +20,7 @@ async function processHttpRequest(method, url, endpointConfig) {
       console.error(error);
       return {
         error: {
-          code: 'no_response'
+          code: "no_response"
         }
       };
     } else {
@@ -28,7 +28,7 @@ async function processHttpRequest(method, url, endpointConfig) {
       console.error(error);
       return {
         error: {
-          code: 'invalid_request_setup',
+          code: "invalid_request_setup",
           message: error.message
         }
       };

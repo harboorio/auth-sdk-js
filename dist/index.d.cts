@@ -39,8 +39,8 @@ interface HarboorAuthOtpPutResponse200 {
 
 type HarboorAuthOtpPutResponse = HarboorAuthOtpPutResponse200
 
-type client = AxiosInstance
-type sdk = HarboorAuthSdk
+declare const client: AxiosInstance
+declare const sdk: HarboorAuthSdk
 
 interface HarboorAuthSdk {
     get: () => Promise<HarboorAuthHomeGetResponse>
@@ -50,4 +50,4 @@ interface HarboorAuthSdk {
     },
 }
 
-export type { client, sdk };
+export { client, sdk };

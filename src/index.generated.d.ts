@@ -7,8 +7,8 @@ import type {
     HarboorAuthOtpPutBody,
 } from "./schema/index";
 
-export type client = AxiosInstance;
-export type sdk = HarboorAuthSdk;
+export const client: AxiosInstance;
+export const sdk: HarboorAuthSdk;
 
 interface HarboorAuthSdk {
     get: () => Promise<HarboorAuthHomeGetResponse>;

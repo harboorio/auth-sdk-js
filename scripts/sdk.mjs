@@ -24,8 +24,8 @@ export { client, sdk }
 const types = `import { type AxiosInstance } from 'axios'
 import type { ${collectedTypes.join(', ')} } from './schema/index'
 
-export type client = AxiosInstance
-export type sdk = ${TYPES_PREFIX}Sdk
+export const client: AxiosInstance
+export const sdk: ${TYPES_PREFIX}Sdk
 
 ${tmodule}`
 
