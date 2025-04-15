@@ -1,4 +1,5 @@
 import { type AxiosInstance } from "axios";
+import { type Util } from "./util";
 import type {
     HarboorAuthHomeGetResponse,
     HarboorAuthOtpPostResponse,
@@ -11,6 +12,7 @@ export const client: AxiosInstance;
 export const sdk: HarboorAuthSdk;
 
 interface HarboorAuthSdk {
+    util: Util;
     get: () => Promise<HarboorAuthHomeGetResponse>;
     otp: {
         post: (json: HarboorAuthOtpPostBody) => Promise<HarboorAuthOtpPostResponse>;

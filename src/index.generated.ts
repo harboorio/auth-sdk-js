@@ -1,4 +1,5 @@
 import { client, processHttpRequest } from "@src/http-client";
+import { util } from "@src/util";
 import type {
     HarboorAuthHomeGetResponse,
     HarboorAuthOtpPostResponse,
@@ -15,6 +16,7 @@ client.defaults.validateStatus = function () {
 client.defaults.baseURL = "";
 
 const sdk = {
+    util: util,
     get: async (): Promise<HarboorAuthHomeGetResponse> => {
         return (await processHttpRequest("get", "/")) as HarboorAuthHomeGetResponse;
     },

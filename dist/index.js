@@ -34,6 +34,25 @@ async function processHttpRequest(method, url, endpointConfig) {
   }
 }
 
+const util = {
+  formDataToJson
+};
+function formDataToJson(formData) {
+  const json = {};
+  for (const pair of formData.entries()) {
+    const k = pair[0];
+    if (k in json) {
+      if (!Array.isArray(json[k])) {
+        json[k] = [json[k]];
+      }
+      json[k].push(pair[1]);
+    } else {
+      json[k] = pair[1];
+    }
+  }
+  return json;
+}
+
 client.defaults.withCredentials = true;
 client.defaults.responseType = 'json';
 client.defaults.validateStatus = function () {
@@ -41,6 +60,7 @@ client.defaults.validateStatus = function () {
 };
 client.defaults.baseURL = '';
 const sdk = {
+  util: util,
   get: async () => {
     return await processHttpRequest('get', '/');
   },

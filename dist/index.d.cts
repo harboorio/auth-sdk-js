@@ -1,5 +1,9 @@
 import { AxiosInstance } from 'axios';
 
+interface Util {
+    formDataToJson: <T extends Record<string, unknown>>(formData: FormData) => T
+}
+
 interface HarboorAuthHomeGetResponse200 {
   name: string;
   version: string;
@@ -43,6 +47,7 @@ declare const client: AxiosInstance
 declare const sdk: HarboorAuthSdk
 
 interface HarboorAuthSdk {
+    util: Util,
     get: () => Promise<HarboorAuthHomeGetResponse>
     otp: {
         post: (json: HarboorAuthOtpPostBody) => Promise<HarboorAuthOtpPostResponse>

@@ -9,6 +9,7 @@ const openapi = JSON.parse(await readFile(path.resolve(process.cwd(), 'src/schem
 let collectedTypes = [], tmodule = ''
 const schemaCode = renderSchema(openapi)
 const code = `import { client, processHttpRequest } from '@src/http-client'
+import { util } from '@src/util'
 import type { ${collectedTypes.join(', ')} } from './schema/index'
 
 client.defaults.withCredentials = true
@@ -22,6 +23,7 @@ ${schemaCode}
 export { client, sdk }
 `
 const types = `import { type AxiosInstance } from 'axios'
+import { type Util } from './util'
 import type { ${collectedTypes.join(', ')} } from './schema/index'
 
 export const client: AxiosInstance
@@ -39,8 +41,8 @@ export function renderSchema(openapi) {
         const bsegments = b.split('/').length
         return asegments < bsegments ? 1 : asegments === bsegments ? 0 : -1
     })
-    let processedPaths = [], isInitialSegment = true, blocks = 'const sdk = {' + lnbr
-    tmodule += 'interface ' + TYPES_PREFIX + 'Sdk {' + lnbr
+    let processedPaths = [], isInitialSegment = true, blocks = 'const sdk = {' + lnbr + indent + 'util: util,' + lnbr
+    tmodule += 'interface ' + TYPES_PREFIX + 'Sdk {' + lnbr + indent + 'util: Util,' + lnbr
     for (const url of endpoints) {
         const segments = url.split('/')
         blocks += renderSegmentRecursive(segments, { level: isInitialSegment ? 0 : 1, schema: openapi, path: '/', processedPaths, collectedTypes })
