@@ -8,9 +8,10 @@ const lnbr = os.EOL
 const openapi = JSON.parse(await readFile(path.resolve(process.cwd(), 'src/schema', 'openapi.json'), 'utf8'))
 let collectedTypes = [], tmodule = ''
 const schemaCode = renderSchema(openapi)
-const code = `import { client, processHttpRequest } from '@src/http-client'
+const code = `import { client, processHttpRequest, type SdkRequestOptions } from '@src/http-client'
 import { util } from '@src/util'
 import type { ${collectedTypes.join(', ')} } from './schema/index'
+import type { AxiosRequestConfig } from 'axios'
 
 client.defaults.withCredentials = true
 client.defaults.responseType = 'json'
@@ -22,9 +23,10 @@ client.defaults.baseURL = ${(openapi.servers ?? []).find(({ description }) => /(
 ${schemaCode}
 export { sdk }
 `
-const types = `import { type AxiosInstance } from 'axios'
+const types = `import { type AxiosInstance, type AxiosRequestConfig } from 'axios'
 import { type Util } from './util'
 import type { ${collectedTypes.join(', ')} } from './schema/index'
+import type { SdkRequestOptions } from './http-client'
 
 export const client: AxiosInstance
 export const sdk: ${TYPES_PREFIX}Sdk
@@ -72,10 +74,10 @@ export function renderSegmentRecursive(segments, opts = { level: 0, schema: { pa
             const typeName = TYPES_PREFIX + name + titleCase(method)
             const op = opts.schema.paths[opts.path][method]
             const hasBody = 'requestBody' in op
-            block += indent.repeat(opts.level + 1) + method + `: async (${hasBody ? `json: ${typeName}Body` : ''}): Promise<${typeName}Response> => {` + lnbr
-            block += indent.repeat(opts.level + 2) + `return (await processHttpRequest('${method}', '${opts.path}'${hasBody ? ', { data: json }' : ''})) as ${typeName}Response` + lnbr
+            block += indent.repeat(opts.level + 1) + method + `: async (${hasBody ? `json: ${typeName}Body, opts?: Partial<AxiosRequestConfig> & SdkRequestOptions` : 'opts?: Partial<AxiosRequestConfig> & SdkRequestOptions'}): Promise<${typeName}Response> => {` + lnbr
+            block += indent.repeat(opts.level + 2) + `return (await processHttpRequest('${method}', '${opts.path}'${hasBody ? ', Object.assign({}, opts ?? {}, { data: json })' : ', opts'})) as ${typeName}Response` + lnbr
             block += indent.repeat(opts.level + 1) + '},' + lnbr
-            tmodule += indent.repeat(opts.level + 1) + method + `: (${hasBody ? `json: ${typeName}Body` : ''}) => Promise<${typeName}Response>` + lnbr
+            tmodule += indent.repeat(opts.level + 1) + method + `: (${hasBody ? `json: ${typeName}Body, opts?: Partial<AxiosRequestConfig> & SdkRequestOptions` : 'opts?: Partial<AxiosRequestConfig> & SdkRequestOptions'}) => Promise<${typeName}Response>` + lnbr
 
             opts.collectedTypes.push(`${typeName}Response`)
             if (hasBody) opts.collectedTypes.push(`${typeName}Body`)

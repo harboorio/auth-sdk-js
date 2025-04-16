@@ -1,15 +1,45 @@
 import axios, { type AxiosInstance, type AxiosRequestConfig } from "axios";
 
+export interface SdkRequestOptions {
+    sdkMinTimeThreshold?: number;
+}
+
 export const client: AxiosInstance = axios.create();
 
-export async function processHttpRequest(method: string, url: string, endpointConfig?: Partial<AxiosRequestConfig>) {
-    const config: AxiosRequestConfig = Object.assign({}, endpointConfig ?? {}, {
+const requestOptionsProps = ["sdkMinTimeThreshold"];
+
+export async function processHttpRequest(
+    method: string,
+    url: string,
+    requestOptions?: Partial<AxiosRequestConfig> & SdkRequestOptions,
+) {
+    const minTimeThreshold = requestOptions?.sdkMinTimeThreshold ?? 0;
+    const startTime = minTimeThreshold > 0 ? Date.now() : 0;
+    const axiosOptions = requestOptions
+        ? Object.keys(requestOptions)
+              .filter((prop) => !requestOptionsProps.includes(prop))
+              .reduce(
+                  (memo, prop) =>
+                      Object.assign({}, memo, { [prop]: requestOptions[prop as keyof typeof requestOptions] }),
+                  {},
+              )
+        : {};
+    const config: AxiosRequestConfig = Object.assign({}, axiosOptions ?? {}, {
         method,
         url,
     });
 
     try {
         const response = await client(config);
+
+        if (minTimeThreshold > 0) {
+            const elapsedTime = Date.now() - startTime;
+            if (elapsedTime < minTimeThreshold) {
+                const remainingTime = minTimeThreshold - elapsedTime;
+                await new Promise((resolve) => setTimeout(resolve, remainingTime));
+            }
+        }
+
         return response.data;
     } catch (error) {
         if (error.response) {

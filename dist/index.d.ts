@@ -1,7 +1,7 @@
-import { AxiosInstance } from 'axios';
+import { AxiosInstance, AxiosRequestConfig } from 'axios';
 
 interface Util {
-    formDataToJson: <T extends Record<string, unknown>>(formData: FormData) => T;
+    formDataToJson: <T extends object>(formData: FormData) => T;
 }
 
 interface HarboorAuthHomeGetResponse200 {
@@ -43,16 +43,20 @@ interface HarboorAuthOtpPutResponse200 {
 
 type HarboorAuthOtpPutResponse = HarboorAuthOtpPutResponse200
 
+interface SdkRequestOptions {
+    sdkMinTimeThreshold?: number
+}
+
 declare const client: AxiosInstance
 declare const sdk: HarboorAuthSdk
 
 interface HarboorAuthSdk {
     util: Util
     client: AxiosInstance
-    get: () => Promise<HarboorAuthHomeGetResponse>
+    get: (opts?: Partial<AxiosRequestConfig> & SdkRequestOptions) => Promise<HarboorAuthHomeGetResponse>
     otp: {
-        post: (json: HarboorAuthOtpPostBody) => Promise<HarboorAuthOtpPostResponse>
-        put: (json: HarboorAuthOtpPutBody) => Promise<HarboorAuthOtpPutResponse>
+        post: (json: HarboorAuthOtpPostBody, opts?: Partial<AxiosRequestConfig> & SdkRequestOptions) => Promise<HarboorAuthOtpPostResponse>
+        put: (json: HarboorAuthOtpPutBody, opts?: Partial<AxiosRequestConfig> & SdkRequestOptions) => Promise<HarboorAuthOtpPutResponse>
     },
 }
 

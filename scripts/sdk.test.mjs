@@ -61,15 +61,15 @@ test('renderSegmentRecursive', () => {
     const sample3 = ['otp', 'request']
     const result3 = renderSegmentRecursive(sample3, { level: 0, schema: schema1, path: '/', processedPaths: [], collectedTypes: [], tmodule: '' })
     const expect3 = `otp: {
-    post: async (json: HarboorAuthOtpPostBody): Promise<HarboorAuthOtpPostResponse> => {
-        return (await processHttpRequest('post', '/otp', { data: json })) as HarboorAuthOtpPostResponse
+    post: async (json: HarboorAuthOtpPostBody, opts?: Partial<AxiosRequestConfig> & SdkRequestOptions): Promise<HarboorAuthOtpPostResponse> => {
+        return (await processHttpRequest('post', '/otp', Object.assign({}, opts ?? {}, { data: json }))) as HarboorAuthOtpPostResponse
     },
-    put: async (json: HarboorAuthOtpPutBody): Promise<HarboorAuthOtpPutResponse> => {
-        return (await processHttpRequest('put', '/otp', { data: json })) as HarboorAuthOtpPutResponse
+    put: async (json: HarboorAuthOtpPutBody, opts?: Partial<AxiosRequestConfig> & SdkRequestOptions): Promise<HarboorAuthOtpPutResponse> => {
+        return (await processHttpRequest('put', '/otp', Object.assign({}, opts ?? {}, { data: json }))) as HarboorAuthOtpPutResponse
     },
     request: {
-        post: async (json: HarboorAuthOtpRequestPostBody): Promise<HarboorAuthOtpRequestPostResponse> => {
-            return (await processHttpRequest('post', '/otp/request', { data: json })) as HarboorAuthOtpRequestPostResponse
+        post: async (json: HarboorAuthOtpRequestPostBody, opts?: Partial<AxiosRequestConfig> & SdkRequestOptions): Promise<HarboorAuthOtpRequestPostResponse> => {
+            return (await processHttpRequest('post', '/otp/request', Object.assign({}, opts ?? {}, { data: json }))) as HarboorAuthOtpRequestPostResponse
         },
     },
 },
@@ -82,25 +82,25 @@ test('renderSchema', () => {
     const expect1 = `const sdk = {
     util,
     client,
-    get: async (): Promise<HarboorAuthHomeGetResponse> => {
-        return (await processHttpRequest('get', '/')) as HarboorAuthHomeGetResponse
+    get: async (opts?: Partial<AxiosRequestConfig> & SdkRequestOptions): Promise<HarboorAuthHomeGetResponse> => {
+        return (await processHttpRequest('get', '/', opts)) as HarboorAuthHomeGetResponse
     },
     otp: {
-        post: async (json: HarboorAuthOtpPostBody): Promise<HarboorAuthOtpPostResponse> => {
-            return (await processHttpRequest('post', '/otp', { data: json })) as HarboorAuthOtpPostResponse
+        post: async (json: HarboorAuthOtpPostBody, opts?: Partial<AxiosRequestConfig> & SdkRequestOptions): Promise<HarboorAuthOtpPostResponse> => {
+            return (await processHttpRequest('post', '/otp', Object.assign({}, opts ?? {}, { data: json }))) as HarboorAuthOtpPostResponse
         },
-        put: async (json: HarboorAuthOtpPutBody): Promise<HarboorAuthOtpPutResponse> => {
-            return (await processHttpRequest('put', '/otp', { data: json })) as HarboorAuthOtpPutResponse
+        put: async (json: HarboorAuthOtpPutBody, opts?: Partial<AxiosRequestConfig> & SdkRequestOptions): Promise<HarboorAuthOtpPutResponse> => {
+            return (await processHttpRequest('put', '/otp', Object.assign({}, opts ?? {}, { data: json }))) as HarboorAuthOtpPutResponse
         },
         request: {
-            post: async (json: HarboorAuthOtpRequestPostBody): Promise<HarboorAuthOtpRequestPostResponse> => {
-                return (await processHttpRequest('post', '/otp/request', { data: json })) as HarboorAuthOtpRequestPostResponse
+            post: async (json: HarboorAuthOtpRequestPostBody, opts?: Partial<AxiosRequestConfig> & SdkRequestOptions): Promise<HarboorAuthOtpRequestPostResponse> => {
+                return (await processHttpRequest('post', '/otp/request', Object.assign({}, opts ?? {}, { data: json }))) as HarboorAuthOtpRequestPostResponse
             },
         },
     },
     session: {
-        get: async (): Promise<HarboorAuthSessionGetResponse> => {
-            return (await processHttpRequest('get', '/session')) as HarboorAuthSessionGetResponse
+        get: async (opts?: Partial<AxiosRequestConfig> & SdkRequestOptions): Promise<HarboorAuthSessionGetResponse> => {
+            return (await processHttpRequest('get', '/session', opts)) as HarboorAuthSessionGetResponse
         },
     },
 }
