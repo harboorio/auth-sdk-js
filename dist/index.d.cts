@@ -57,3 +57,4 @@ interface HarboorAuthSdk {
 }
 
 export { client, sdk };
+export type { HarboorAuthHomeGetResponse, HarboorAuthOtpPostBody, HarboorAuthOtpPostResponse, HarboorAuthOtpPutBody, HarboorAuthOtpPutResponse, HarboorAuthSdk };

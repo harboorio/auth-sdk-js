@@ -29,7 +29,8 @@ import type { ${collectedTypes.join(', ')} } from './schema/index'
 export const client: AxiosInstance
 export const sdk: ${TYPES_PREFIX}Sdk
 
-${tmodule}`
+${tmodule}
+export type { ${collectedTypes.join(', ')} }`
 
 await writeFile(path.resolve(import.meta.dirname, '..', 'src', 'index.generated.ts'), code)
 await writeFile(path.resolve(import.meta.dirname, '..', 'src', 'index.generated.d.ts'), types)
@@ -42,7 +43,7 @@ export function renderSchema(openapi) {
         return asegments < bsegments ? 1 : asegments === bsegments ? 0 : -1
     })
     let processedPaths = [], isInitialSegment = true, blocks = 'const sdk = {' + lnbr + indent + 'util,' + lnbr + indent + 'client,' + lnbr
-    tmodule += 'interface ' + TYPES_PREFIX + 'Sdk {' + lnbr + indent + 'util: Util' + lnbr + indent + 'client: AxiosInstance' + lnbr
+    tmodule += 'export interface ' + TYPES_PREFIX + 'Sdk {' + lnbr + indent + 'util: Util' + lnbr + indent + 'client: AxiosInstance' + lnbr
     for (const url of endpoints) {
         const segments = url.split('/')
         blocks += renderSegmentRecursive(segments, { level: isInitialSegment ? 0 : 1, schema: openapi, path: '/', processedPaths, collectedTypes })

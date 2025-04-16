@@ -11,7 +11,7 @@ import type {
 export const client: AxiosInstance;
 export const sdk: HarboorAuthSdk;
 
-interface HarboorAuthSdk {
+export interface HarboorAuthSdk {
     util: Util;
     client: AxiosInstance;
     get: () => Promise<HarboorAuthHomeGetResponse>;
@@ -20,3 +20,11 @@ interface HarboorAuthSdk {
         put: (json: HarboorAuthOtpPutBody) => Promise<HarboorAuthOtpPutResponse>;
     };
 }
+
+export type {
+    HarboorAuthHomeGetResponse,
+    HarboorAuthOtpPostResponse,
+    HarboorAuthOtpPostBody,
+    HarboorAuthOtpPutResponse,
+    HarboorAuthOtpPutBody,
+};
