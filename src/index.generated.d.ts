@@ -13,6 +13,7 @@ export const sdk: HarboorAuthSdk;
 
 interface HarboorAuthSdk {
     util: Util;
+    client: AxiosInstance;
     get: () => Promise<HarboorAuthHomeGetResponse>;
     otp: {
         post: (json: HarboorAuthOtpPostBody) => Promise<HarboorAuthOtpPostResponse>;

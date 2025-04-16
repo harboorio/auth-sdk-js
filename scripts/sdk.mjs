@@ -20,7 +20,7 @@ client.defaults.validateStatus = function () {
 client.defaults.baseURL = ${(openapi.servers ?? []).find(({ description }) => /(production)/i.test(description))?.url ?? `''`}
 
 ${schemaCode}
-export { client, sdk }
+export { sdk }
 `
 const types = `import { type AxiosInstance } from 'axios'
 import { type Util } from './util'
@@ -41,8 +41,8 @@ export function renderSchema(openapi) {
         const bsegments = b.split('/').length
         return asegments < bsegments ? 1 : asegments === bsegments ? 0 : -1
     })
-    let processedPaths = [], isInitialSegment = true, blocks = 'const sdk = {' + lnbr + indent + 'util: util,' + lnbr
-    tmodule += 'interface ' + TYPES_PREFIX + 'Sdk {' + lnbr + indent + 'util: Util,' + lnbr
+    let processedPaths = [], isInitialSegment = true, blocks = 'const sdk = {' + lnbr + indent + 'util,' + lnbr + indent + 'client,' + lnbr
+    tmodule += 'interface ' + TYPES_PREFIX + 'Sdk {' + lnbr + indent + 'util: Util' + lnbr + indent + 'client: AxiosInstance' + lnbr
     for (const url of endpoints) {
         const segments = url.split('/')
         blocks += renderSegmentRecursive(segments, { level: isInitialSegment ? 0 : 1, schema: openapi, path: '/', processedPaths, collectedTypes })

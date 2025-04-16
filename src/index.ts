@@ -1,2 +1,2 @@
-import { client, sdk } from "@src/index.generated";
-export { client, sdk };
+import { sdk } from "@src/index.generated";
+export { sdk };

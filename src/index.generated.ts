@@ -16,7 +16,8 @@ client.defaults.validateStatus = function () {
 client.defaults.baseURL = "";
 
 const sdk = {
-    util: util,
+    util,
+    client,
     get: async (): Promise<HarboorAuthHomeGetResponse> => {
         return (await processHttpRequest("get", "/")) as HarboorAuthHomeGetResponse;
     },
@@ -30,4 +31,4 @@ const sdk = {
     },
 };
 
-export { client, sdk };
+export { sdk };

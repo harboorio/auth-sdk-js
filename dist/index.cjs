@@ -62,7 +62,8 @@ client.defaults.validateStatus = function () {
 };
 client.defaults.baseURL = '';
 const sdk = {
-  util: util,
+  util,
+  client,
   get: async () => {
     return await processHttpRequest('get', '/');
   },
@@ -80,6 +81,5 @@ const sdk = {
   }
 };
 
-exports.client = client;
 exports.sdk = sdk;
 //# sourceMappingURL=index.cjs.map

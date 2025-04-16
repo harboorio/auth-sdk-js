@@ -80,7 +80,8 @@ test('renderSegmentRecursive', () => {
 test('renderSchema', () => {
     const result1 = renderSchema(schema2)
     const expect1 = `const sdk = {
-    util: util,
+    util,
+    client,
     get: async (): Promise<HarboorAuthHomeGetResponse> => {
         return (await processHttpRequest('get', '/')) as HarboorAuthHomeGetResponse
     },
