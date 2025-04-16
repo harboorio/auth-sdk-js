@@ -1,12 +1,12 @@
 export interface Util {
-    formDataToJson: <T extends Record<string, unknown>>(formData: FormData) => T;
+    formDataToJson: <T extends object>(formData: FormData) => T;
 }
 
 export const util: Util = {
     formDataToJson,
 };
 
-function formDataToJson<T extends Record<string, unknown>>(formData: FormData) {
+function formDataToJson<T extends object>(formData: FormData) {
     const json: Record<string, unknown> = {};
     for (const pair of formData.entries()) {
         const k = pair[0] as string;
